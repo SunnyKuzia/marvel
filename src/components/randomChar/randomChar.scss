@@ -1,0 +1,74 @@
+@import '../../style/variables.scss';
+
+.randomchar {
+    width: 1100px;
+    margin: 50px auto;
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.25);
+    &__block {
+        display: grid;
+        grid-template-columns: 180px auto;
+        column-gap: 30px;
+        padding: 35px 35px 35px 40px; 
+    }
+
+    &__img {
+        width: 180px;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    &__info {
+        display: grid;
+        grid-template-rows: minmax(29px, auto) 90px 38px;
+        row-gap: 10px;
+    }
+
+    &__name {
+        font-size: 22px;
+        font-weight: 700;
+        line-height: 26px;
+        text-transform: uppercase;
+    }
+
+    &__descr {
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16px;
+    }
+
+    &__btns {
+        a:nth-child(1) {
+            margin-right: 30px;
+        }
+    }
+
+    &__static {
+        position: relative;  
+        overflow: hidden;
+        background-color: $dark;        
+        padding: 35px 35px 35px 40px; 
+        button {
+            margin-top: 13px;
+        }
+    }
+
+    &__title {
+        color: rgb(255, 255, 255);
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 32px;
+        &:nth-child(2) {
+            margin-top: 33px;
+        }
+    }
+
+    &__decoration {
+        position: absolute;
+        bottom: 14px;
+        right: -35px;
+    }
+   
+
+}

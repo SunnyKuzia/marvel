@@ -9,10 +9,9 @@ import mjolnir from '../../resources/img/mjolnir.png'
 
 class RandomChar extends Component {
 
-    constructor(props) {
-        super(props);
-        this.updateChar();
-    }
+    // constructor(props) {
+    //     super(props);
+    // }
 
     state = { // state можно прописывать как св-во (вне конструктора)
         char: {},
@@ -22,10 +21,20 @@ class RandomChar extends Component {
 
     marvelService = new MarvelService();
 
+    componentDidMount() {
+        this.updateChar();
+        // this.timerId = setInterval(this.updateChar, 3000);
+    }
+
+    componentWillUnmount() {
+        // clearInterval(this.timerId);
+    }
+
     onCharLoaded = (char) => {
         this.setState({
             char,
-            loading: false
+            loading: false,
+            error: false
         });
     }
 
@@ -36,8 +45,8 @@ class RandomChar extends Component {
         });
     }
 
-    updateChar = () => {
-        const id = Math.floor(Math.random() * 20);
+    updateChar = () => { // функционал вынесли в отдельную функцию (updateChar), потому что он вызывается не только 1 раз в componentDidMount(после рендера), но и в других местах 
+        const id = Math.floor(Math.random() * 20 + 1);
         this.marvelService
             .getCharacter(id)
             .then(this.onCharLoaded)
@@ -53,7 +62,6 @@ class RandomChar extends Component {
         const content = !(loading || errorMessage) ? <View char={char} /> : null;
 
         return (
-
             <div className='randomchar'>
                 {errorMessage}
                 {spinner}
@@ -80,7 +88,15 @@ const View = ({ char }) => {
     const { name, description, thumbnail, homepage, wiki } = char;
     return (
         <div className='randomchar__block'>
-            <img src={thumbnail} alt="Random character" className='randomchar__img' />
+            <img src={thumbnail}
+                alt="Random character"
+                className='randomchar__img'
+                style={thumbnail.includes('/image_not_available') ? { 'object-fit': 'fill' } : null}
+                onError={(e) => {
+                    e.target.src = 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg';
+                    e.target.style = 'object-fit: fill';
+                }}
+            />
             <div className='randomchar__info'>
                 <div className="randomchar__name">{name}</div>
                 <div className="randomchar__descr">
